@@ -1,0 +1,87 @@
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 1rem;
+    }
+    h1,
+    h2,
+    h3,
+    h4 {
+        margin: 0;
+    }
+    .btn {
+        outline: none;
+    }
+    .btn:hover {
+        background-color: rgba(0, 0, 255, 0.1);
+    }
+    .btn:active {
+        background-color: rgba(0, 0, 255, 0);
+    }
+    .action-wrapper {
+      display: flex;
+    }
+    .generate-name {
+        flex-grow: 1;
+        padding: 4px 8px;
+        color: black;
+        background-color: white;
+        border: 2px solid blue;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    .generate-name:first-child {
+      margin-right: 0.5rem;
+    }
+    .mock-block-header {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+    .options {
+        display: flex;
+        margin-bottom: 0.7rem;
+    }
+    .options > div {
+        margin-right: 1rem;
+    }
+</style>
+
+<h4 class="mock-block-header">User names</h4>
+<div class="options">
+    <div class="first-name">
+        <input type="checkbox" id="firstname" name="firstname" checked />
+        <label for="firstname">Firstname</label>
+    </div>
+    <div class="last-name">
+        <input type="checkbox" id="lastname" name="lastname" checked />
+        <label for="lastname">Lastname</label>
+    </div>
+</div>
+<div class="action-wrapper">
+    <button class="generate-name btn" data-gender="male">🧔🏻 Male</button>
+    <button class="generate-name btn" data-gender="female">👩🏻‍🦰 Female</button>
+</div>
+
+<script>
+    function generateName(e) {
+        let firstNameOption = document.getElementById('firstname');
+        let lastNameOption = document.getElementById('lastname');
+        let gender = e.target.dataset.gender;
+        const options = {
+            firstname: firstNameOption.checked,
+            lastname: lastNameOption.checked,
+            gender: gender
+        };
+
+        parent.postMessage(
+            { pluginMessage: { type: 'generate-name', options } },
+            '*'
+        );
+    }
+
+    let generateNameBtns = document.querySelectorAll('.generate-name');
+
+    generateNameBtns.forEach(btn => {
+        btn.addEventListener('click', generateName);
+    });
+</script>
